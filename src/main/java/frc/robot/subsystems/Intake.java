@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -15,13 +16,16 @@ public class Intake extends SubsystemBase{
     private MotorController mc_roller;
     private MotorController mc_doghouse;
     private DoubleSolenoid ds_extender;
+    private Timer timer;
     public Intake(){
         mc_roller = new CANSparkMax(Constants.Intake.INTAKE_ROLLER_CAN, MotorType.kBrushless);
         mc_doghouse = new VictorSP(Constants.Intake.INTAKE_DOG_HOUSE_PWM);
+        timer = new Timer();
         ds_extender = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Constants.Intake.INTAKE_SOLENOID_PCM, Constants.Intake.INTAKE_SOLENOID_PCM_2);
     }
     public void extendIntake()
     {
+        
         ds_extender.set(Value.kForward);
     }
     public void retractIntake()

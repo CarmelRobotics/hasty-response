@@ -1,27 +1,25 @@
 package frc.robot.commands;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 public class AutoTurnUntilTarget extends CommandBase {
     private DriveTrain drive;
-    NetworkTable nt;
-    NetworkTableEntry nte_tv;
-    public AutoTurnUntilTarget(DriveTrain dt){
+    private Shooter shoot;
+    
+    public AutoTurnUntilTarget(DriveTrain dt, Shooter s){
         addRequirements(dt);
         drive = dt;
-        nt = NetworkTableInstance.getDefault().getTable("limelight");
-        nte_tv = nt.getEntry("tv");
+        this.shoot = s;
     }
     @Override
     public void initialize(){
         System.out.println("initializing autonomous");
     }
     public void execute (){
-        drive.arcadeDrive(0.5, 0., 0.);
+        drive.arcadeDrive(0.35, 0., 0.);
     }
     @Override
     public void end(boolean interrupted) {
@@ -29,6 +27,6 @@ public class AutoTurnUntilTarget extends CommandBase {
     }
     @Override
     public boolean isFinished() {
-        return nte_tv.getBoolean(false);
+        return shoot.getTV();
     }
 }

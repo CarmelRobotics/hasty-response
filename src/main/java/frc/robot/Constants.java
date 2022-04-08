@@ -28,8 +28,7 @@ public final class Constants {
         public static final int DRIVE_DIO_ENC_LEFT2 = 6;
         public static final int DRIVE_DIO_ENC_RIGHT1 =  9;
         public static final int DRIVE_DIO_ENC_RIGHT2 =  8;
-        public static final double DRIVE_DISTANCE_PER_PULSE_LEFT = 1.0; //default
-        public static final double DRIVE_DISTANCE_PER_PULSE_RIGHT = 1.0; //default
+        public static final double DRIVE_DISTANCE_PER_PULSE = 1.22/28.04; //default
 
         public static final double DRIVE_PIVOT_SPEED = 0.3;
     }
@@ -84,6 +83,12 @@ public final class Constants {
         public static final int SERVO_PWM = 7;
         public static final int SERVO_PWM_2 = 8;
         public static final boolean ADJUST_HOOD = true;
+
+        public static final double MIN_SPEED = 0.46;
+        public static final double MAX_SPEED = 0.62;
+
+        public static final double MIN_DIST = 95;
+        public static final double MAX_DIST = 230;
     }
     public static final class Vision {
         public static final double VISION_TARGET_HEIGHT = 104.0; //inches

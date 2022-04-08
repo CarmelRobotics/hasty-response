@@ -27,6 +27,8 @@ public class DriveTrain extends SubsystemBase
     private CANSparkMax sp_left2;
     private CANSparkMax sp_right1;
     private CANSparkMax sp_right2;
+    private double startEncoderVal_left;
+    private double startEncoderVal_right;
     private MotorControllerGroup spg_left;
     private MotorControllerGroup spg_right;
     private DifferentialDrive dd_drive;
@@ -51,12 +53,15 @@ public class DriveTrain extends SubsystemBase
         spg_left = new MotorControllerGroup(sp_left1, sp_left2);
         spg_right = new MotorControllerGroup(sp_right1, sp_right2);
         dd_drive = new DifferentialDrive(spg_left, spg_right);
+        startEncoderVal_left = getEncoderLeft();
+        startEncoderVal_right = getEncoderRight();
         // enc_Left = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_LEFT1, Constants.DriveTrain.DRIVE_DIO_ENC_LEFT2, false);
         // enc_Right = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT1, Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT2, false);
         // enc_Left.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_LEFT);
         // enc_Right.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_RIGHT);
         // enc_Left.reset();
         // enc_Right.reset();
+        
         NAVX.zeroYaw();
     }    
     public void arcadeDrive(double x, double y, double z){
@@ -64,20 +69,28 @@ public class DriveTrain extends SubsystemBase
       System.out.println("running arcade drive");
     }
     double getEncoderLeft() {
-      return (sp_left1.getEncoder().getPosition() + sp_left2.getEncoder().getPosition())/2.0;
+      return ((sp_left1.getEncoder().getPosition() + sp_left2.getEncoder().getPosition())/2.0-startEncoderVal_left)*Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE;
     }
     double getEncoderRight() {
-      return (sp_right1.getEncoder().getPosition() + sp_right2.getEncoder().getPosition())/2.0;
+      return ((sp_right1.getEncoder().getPosition() + sp_right2.getEncoder().getPosition())/2.0-startEncoderVal_right)*Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE;
     }
     public double getEncoder() {
-      return (getEncoderLeft()+getEncoderRight())/2.0;
+      return (((-getEncoderLeft())+getEncoderRight())/2.0);
     }
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
       SmartDashboard.putNumber("Encoder Left", getEncoderLeft());
       SmartDashboard.putNumber("Encoder Right", getEncoderRight());
-      o_odometry.update(NAVX.getRotation2d(), getEncoderLeft(), getEncoderRight());
+
+      SmartDashboard.putNumber("Encoder Default Left", startEncoderVal_left);
+      SmartDashboard.putNumber("Encoder Default Right", startEncoderVal_right);
+
+      SmartDashboard.putNumber("Encoder Left 1 Raw", sp_left1.getEncoder().getPosition());
+      SmartDashboard.putNumber("Encoder Left 2 Raw", sp_left2.getEncoder().getPosition());
+
+      SmartDashboard.putNumber("Encoder Avg", getEncoder());
+      o_odometry.update(NAVX.getRotation2d(), -getEncoderLeft(), getEncoderRight());
       SmartDashboard.putData("Field", f_field);
       f_field.setRobotPose(o_odometry.getPoseMeters());
       SmartDashboard.putBoolean("NAVX1 Connected", NAVX.isConnected());

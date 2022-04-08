@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;  
 
 /** An example command that uses an example subsystem. */
 public class Shoot extends CommandBase {

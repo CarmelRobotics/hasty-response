@@ -124,8 +124,8 @@ public class RobotContainer {
       b_hanger_up_guitar.whileHeld(new HangUp(m_hanger));
       b_hanger_down_guitar.whileHeld(new HangDown(m_hanger));
       b_intakeSpin_rev_guitar.whileHeld(new IntakeBall(m_intake, true));
-      b_intakeExtend.whileHeld(new IntakeOpen(m_intake));
-      b_intakeRetract.whileHeld(new IntakeClose(m_intake));
+      b_intakeExtend.whenPressed(new IntakeOpen(m_intake));
+      b_intakeRetract.whenPressed(new IntakeClose(m_intake));
     }
 
     //b_intakeToShoot.whileHeld(new IntakeToShoot(m_intake, m_bts));

@@ -7,6 +7,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -60,8 +61,24 @@ public class ShootConstant extends CommandBase {
     System.out.println("speed: " + speed);
     System.out.println("overriding?" + m_override.get());
 
+    double speed = 0.0;
+    double backPercent = 1.0;
+    if (distance < Constants.Shooter.MIN_DIST) {
+      speed = Constants.Shooter.MIN_SPEED;
+    }else if (distance > Constants.Shooter.MAX_DIST) {
+      speed = Constants.Shooter.MAX_SPEED;
+    }else {
+      speed = (((distance - Constants.Shooter.MIN_DIST) / (Constants.Shooter.MAX_DIST - Constants.Shooter.MIN_DIST)) * (Constants.Shooter.MAX_SPEED-Constants.Shooter.MIN_SPEED)) + Constants.Shooter.MIN_SPEED;
+    }
+    double avg_dist = (Constants.Shooter.MIN_DIST + Constants.Shooter.MAX_DIST)/2.0;
+    if (distance <= avg_dist) {
+      backPercent = 1.0;
+    } else {
+      backPercent = (distance-avg_dist) / (Constants.Shooter.MAX_DIST-avg_dist) * (-0.1) + 1.0;
+    }
 
-    m_shooter.shoot(0.5);
+    SmartDashboard.putNumber("Shooter Speed", speed);
+    m_shooter.shootAngled(speed, backPercent);
 
   }
   public void stopAll() {

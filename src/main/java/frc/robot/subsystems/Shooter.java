@@ -48,7 +48,13 @@ public class Shooter extends SubsystemBase {
     mc_flyWheel2_front.set(-speed);
     System.out.println("shooting");
   }
-
+  public void shootAngled(double speed, double backPercent){
+    mc_flyWheel_back.set(-speed*backPercent);
+    System.out.println("Back Motor:" + -speed*backPercent);
+    mc_flyWheel2_front.set(-speed);
+    System.out.println("Front Motor" + -speed);
+    System.out.println("shooting");
+  }
   public void stopShoot(){
     mc_flyWheel_back.set(0);
     mc_flyWheel2_front.set(0);
@@ -76,7 +82,7 @@ public class Shooter extends SubsystemBase {
     if (!tv.exists()) {
       System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TV");
     }
-    return tv.getBoolean(true);
+    return (int)tv.getNumber(0.0) == 1;
   }
   public double getDistance() {
     double targetOffsetAngle_Vertical = getTY();

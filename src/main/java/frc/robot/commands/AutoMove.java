@@ -32,5 +32,5 @@ public class AutoMove  extends CommandBase{
   public boolean isFinished() {
     return (drive.getEncoder()-initDistance)<distance;
   }
-} 
+}
 

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +17,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 
 
@@ -32,6 +34,9 @@ public class DriveTrain extends SubsystemBase
     private MotorControllerGroup spg_left;
     private MotorControllerGroup spg_right;
     private DifferentialDrive dd_drive;
+    private double rotationSensitivity = .7;
+    private Joystick joy;
+    private JoystickButton fineTune;
     // private Encoder enc_Left, enc_Right;
     public AHRS NAVX = new AHRS(I2C.Port.kOnboard);
     private DifferentialDriveOdometry o_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
@@ -55,6 +60,8 @@ public class DriveTrain extends SubsystemBase
         dd_drive = new DifferentialDrive(spg_left, spg_right);
         startEncoderVal_left = getEncoderLeft();
         startEncoderVal_right = getEncoderRight();
+        joy = new Joystick(0);
+        fineTune = new JoystickButton(joy, Constants.Controls.BUTTON_FINE_TUNE);
         // enc_Left = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_LEFT1, Constants.DriveTrain.DRIVE_DIO_ENC_LEFT2, false);
         // enc_Right = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT1, Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT2, false);
         // enc_Left.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_LEFT);
@@ -63,9 +70,18 @@ public class DriveTrain extends SubsystemBase
         // enc_Right.reset();
         
         NAVX.zeroYaw();
-    }    
+    }
+    public double getAngle() {
+      return NAVX.getAngle();
+    }
     public void arcadeDrive(double x, double y, double z){
-      dd_drive.arcadeDrive(x, (y+(z*.5))); 
+      if(fineTune.get()){
+        dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER*.6, (y*.7));
+      }
+      else{
+        dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER, (y*.7));
+
+      }
       System.out.println("running arcade drive");
     }
     double getEncoderLeft() {

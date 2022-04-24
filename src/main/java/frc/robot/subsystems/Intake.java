@@ -17,6 +17,8 @@ public class Intake extends SubsystemBase{
     private MotorController mc_doghouse;
     private DoubleSolenoid ds_extender;
     private Timer timer;
+
+    public boolean isDown = false;
     public Intake(){
         mc_roller = new CANSparkMax(Constants.Intake.INTAKE_ROLLER_CAN, MotorType.kBrushless);
         mc_doghouse = new VictorSP(Constants.Intake.INTAKE_DOG_HOUSE_PWM);
@@ -25,11 +27,12 @@ public class Intake extends SubsystemBase{
     }
     public void extendIntake()
     {
-        
+        isDown = true;
         ds_extender.set(Value.kForward);
     }
     public void retractIntake()
     {
+        isDown = false;
         ds_extender.set(Value.kReverse);
     }
     public void enableDoghouse() {

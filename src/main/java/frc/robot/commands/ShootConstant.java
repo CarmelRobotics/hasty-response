@@ -3,6 +3,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.BTS;
+import frc.robot.subsystems.FileReadWrite;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,34 +25,35 @@ public class ShootConstant extends CommandBase {
   private final Shooter m_shooter;
   private final Intake m_intake;
   private final BTS m_bts;
+  private final FileReadWrite m_fileIO;
   private double speed;
   private double speed1;
   private Joystick m_joy;
-  private JoystickButton m_override;
-  private JoystickButton m_resetServo;
   protected Timer time;
+  boolean firstLoop = true;
   boolean setServoPos = false;
-  public ShootConstant(Shooter shooter, Intake intake, BTS bts) {
+  public ShootConstant(Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) {
     m_shooter = shooter;
     m_intake = intake;
     m_bts = bts;
+    m_fileIO = fileIO;
     time = new Timer();
     m_joy = new Joystick(0);
-    m_override = new JoystickButton(m_joy, 9);
-    m_resetServo = new JoystickButton(m_joy, 10);
+
   }
 
   @Override
   public void initialize() {
     time.start();
     setServoPos = false;
+    firstLoop = true;
+    if (!m_intake.isDown) {
+      m_intake.extendIntake();
+    }
+    
   }
   
   public void runShoot() { //seperated to reduce reduncency with auto.
-    if (time.hasElapsed(1.0)) {
-      m_intake.enableDoghouse();
-      m_bts.setRoller(Constants.BTS.BTS_SPEED);
-    }
     System.out.println("time running command is: " + time.get());
     System.out.println("shooting");
     
@@ -59,7 +61,6 @@ public class ShootConstant extends CommandBase {
       
     
     System.out.println("speed: " + speed);
-    System.out.println("overriding?" + m_override.get());
 
     double speed = 0.0;
     double backPercent = 1.0;
@@ -70,16 +71,27 @@ public class ShootConstant extends CommandBase {
     }else {
       speed = (((distance - Constants.Shooter.MIN_DIST) / (Constants.Shooter.MAX_DIST - Constants.Shooter.MIN_DIST)) * (Constants.Shooter.MAX_SPEED-Constants.Shooter.MIN_SPEED)) + Constants.Shooter.MIN_SPEED;
     }
+    speed *= 0.98;
     double avg_dist = (Constants.Shooter.MIN_DIST + Constants.Shooter.MAX_DIST)/2.0;
     if (distance <= avg_dist) {
       backPercent = 1.0;
     } else {
       backPercent = (distance-avg_dist) / (Constants.Shooter.MAX_DIST-avg_dist) * (-0.1) + 1.0;
     }
-
     SmartDashboard.putNumber("Shooter Speed", speed);
     m_shooter.shootAngled(speed, backPercent);
-
+    
+    if (time.hasElapsed(1.0)) {
+      m_intake.enableDoghouse();
+      m_bts.setRoller(Constants.BTS.BTS_SPEED);
+      if (firstLoop) {
+        m_fileIO.addDataShoot(speed, backPercent, distance);
+      }
+      firstLoop = false;
+    }
+    if (time.hasElapsed(2.0)) {
+      m_intake.disablePneumatics();
+    }
   }
   public void stopAll() {
     m_shooter.stopShoot();

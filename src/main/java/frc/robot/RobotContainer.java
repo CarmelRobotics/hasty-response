@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.io.File;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -19,6 +21,9 @@ import frc.robot.commands.IntakeClose;
 import frc.robot.commands.IntakeOpen;
 import frc.robot.commands.OverrideDistance;
 import frc.robot.commands.PivotToTarget;
+import frc.robot.commands.PivotToTargetNew;
+import frc.robot.commands.PrintLog;
+import frc.robot.commands.RecordBall;
 import frc.robot.commands.ResetServo;
 import frc.robot.commands.SetShooterServo;
 import frc.robot.commands.Shoot;
@@ -27,6 +32,7 @@ import frc.robot.commands.ShootDavid;
 import frc.robot.commands.setRingLight;
 import frc.robot.subsystems.BTS;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.FileReadWrite;
 import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
@@ -49,7 +55,8 @@ public class RobotContainer {
   private final BTS m_bts = new BTS();
   private final Hanger m_hanger = new Hanger();
   private final Lighting m_lights = new Lighting();
-  private final Auto a_auto = new Auto(m_driveTrain, m_shooter, m_intake, m_bts);
+  private final FileReadWrite m_fileIO = new FileReadWrite();
+  private final Auto a_auto = new Auto(m_driveTrain, m_shooter, m_intake, m_bts, m_fileIO);
   private final ResetServo m_resetServo = new ResetServo(m_shooter);
 
   //joystick
@@ -73,6 +80,8 @@ public class RobotContainer {
   private final JoystickButton b_hanger_up_guitar;
   private final JoystickButton b_hanger_down_guitar;
   private final JoystickButton b_resetServoPos;
+  private final JoystickButton b_printLog;
+  private final JoystickButton b_recordHit;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     b_hanger_up = new JoystickButton(j_joystick, Constants.Controls.BUTTON_HANGER_UP);
@@ -83,6 +92,8 @@ public class RobotContainer {
     b_intakeSpin = new JoystickButton(j_joystick, Constants.Controls.BUTTON_INTAKE_ROLLER);
     b_intakeSpin_rev = new JoystickButton(j_joystick, Constants.Controls.BUTTON_INTAKE_REV);
     b_pivotToTarget = new JoystickButton(j_joystick, Constants.Controls.BUTTON_PIVOT_TO_TARGET);
+    b_printLog = new JoystickButton(j_joystick, Constants.Controls.BUTTON_PRINT_LOG);
+    b_recordHit = new JoystickButton(j_guitar, Constants.Controls.BUTTON_RECORD_HIT_GUITAR);
     // b_hanger_open = new JoystickButton(j_joystick, Constants.Controls.BUTTON_HANGER_OPEN);
     // b_hanger_closed = new JoystickButton(j_joystick, Constants.Controls.BUTTON_HANGER_CLOSE);
    // b_intakeToShoot = new JoystickButton(j_joystick, Constants.Controls.BUTTON_INTAKE_TO_SHOOT);
@@ -107,13 +118,15 @@ public class RobotContainer {
     m_lights.setDefaultCommand(new setRingLight(m_lights, true));
     m_driveTrain.setDefaultCommand(new Drive(m_driveTrain, j_joystick));
     m_shooter.setDefaultCommand(new SetShooterServo(m_shooter, j_joystick));
-    b_runShooter.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts));
+    b_runShooter.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts, m_fileIO));
     b_intakeSpin.whileHeld(new IntakeBall(m_intake, false));
    // b_hanger_open.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_OPEN));
     //b_hanger_closed.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_CLOSED));
     b_overrideServo.whenPressed(new OverrideDistance(m_shooter));
     b_pivotToTarget.whileHeld(new PivotToTarget(m_shooter, m_driveTrain));
     b_resetServoPos.whenPressed(new ResetServo(m_shooter));
+    b_printLog.whenPressed(new PrintLog(m_fileIO));
+    b_recordHit.whenPressed(new RecordBall(m_fileIO));
     if (Constants.Controls.useGuitar) {
       //.whileHeld(new HangUp(m_hanger));
       //.whileHeld(new HangDown(m_hanger));

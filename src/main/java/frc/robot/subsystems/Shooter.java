@@ -15,17 +15,21 @@ import frc.robot.Constants;
 public class Shooter extends SubsystemBase {
   private PWMTalonFX mc_flyWheel_back;
   private PWMTalonFX mc_flyWheel2_front;
+  // private TalonFX mc_flyWheel_back;
+  // private TalonFX mc_flyWheel2_front;
   private Servo sv_servo_l;
   private Servo sv_servo_r;
   private NetworkTable nt_table;
   public boolean isOverridden;
-
+  
   public Shooter() {
     sv_servo_l = new Servo(Constants.Shooter.SERVO_PWM);
     sv_servo_r = new Servo(Constants.Shooter.SERVO_PWM_2);
     isOverridden = false;
     mc_flyWheel_back = new PWMTalonFX(Constants.Shooter.SHOOTER_PWM_0);
     mc_flyWheel2_front = new PWMTalonFX(Constants.Shooter.SHOOTER_PWM_1);
+    // mc_flyWheel_back = new TalonFX(Constants.Shooter.SHOOTER_PWM_0);
+    // mc_flyWheel2_front = new TalonFX(Constants.Shooter.SHOOTER_PWM_1);
     nt_table = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
@@ -38,7 +42,7 @@ public class Shooter extends SubsystemBase {
   public void setServoPosition(double value) { //value is 0 to 1
     sv_servo_l.set(value);
     sv_servo_r.set(value);
-    System.out.println("setting servo position to " + value);
+    //System.out.println("setting servo position to " + value);
   }
   public double getServoPosition() {
     return sv_servo_l.get();
@@ -82,7 +86,7 @@ public class Shooter extends SubsystemBase {
     if (!tv.exists()) {
       System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TV");
     }
-    return (int)tv.getNumber(0.0) == 1;
+    return tv.getNumber(0.0).intValue() == 1;
   }
   public double getDistance() {
     double targetOffsetAngle_Vertical = getTY();
@@ -97,6 +101,10 @@ public class Shooter extends SubsystemBase {
     }else {
       return distanceFromLimelightToGoalInches;
     }
+  }
+  public void shootRear(double back_speed){
+    mc_flyWheel_back.disable();
+    mc_flyWheel2_front.set(-back_speed);;
   }
   public void overrideCamera() {
     if(isOverridden){

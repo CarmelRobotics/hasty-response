@@ -1,22 +1,25 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 
-public class PivotToTarget extends CommandBase {
+public class AutoPivotToTarget extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final Shooter m_shooter;
     private final DriveTrain m_drive;
     private boolean stop = false;
+    private Timer seeTarget;
+    private boolean runTimer = false;
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public PivotToTarget(Shooter s, DriveTrain d) {
+    public AutoPivotToTarget(Shooter s, DriveTrain d) {
       m_shooter = s;
       m_drive = d;
       // Use addRequirements() here to declare subsystem dependencies.
@@ -27,6 +30,9 @@ public class PivotToTarget extends CommandBase {
     @Override
     public void initialize() {
         stop = false;
+        seeTarget.reset();
+        seeTarget.stop();
+        runTimer = false;
     }
   
     // Called every time the scheduler runs while the command is scheduled.
@@ -38,7 +44,7 @@ public class PivotToTarget extends CommandBase {
         if (m_shooter.getTV()) {
             if (abs_tx > 1.2) {
                 System.out.println("pivoting");
-                double pivot_mod = abs_tx/60.0;
+                double pivot_mod = abs_tx/68.0;
                 if (tx > 0) {
                     m_drive.arcadeDrive(Constants.DriveTrain.DRIVE_PIVOT_SPEED_BASE+pivot_mod+0.08, 0, 0); // turn right
                     debug = "turn right";
@@ -48,9 +54,12 @@ public class PivotToTarget extends CommandBase {
                 }
             }else {
                 debug = "seeing target";
-                stop = true;
                 m_drive.arcadeDrive(0, 0, 0);
-    
+                if (!runTimer) {
+                    seeTarget.start();
+                }
+                
+                
             }
         }else {
             m_drive.arcadeDrive(0.65, 0, 0); // turn right
@@ -70,6 +79,6 @@ public class PivotToTarget extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return false;
+      return seeTarget.get() > 1.0;
     }
 }

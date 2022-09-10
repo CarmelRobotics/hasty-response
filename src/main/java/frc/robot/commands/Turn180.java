@@ -32,7 +32,7 @@ public class Turn180 extends CommandBase {
     public void execute() {
         double currentAngle = m_drive.NAVX.getAngle();
         if (Math.abs(currentAngle-initAngle) < 180.0) {
-            m_drive.arcadeDrive(Constants.DriveTrain.DRIVE_PIVOT_SPEED, 0.0, 0.0);
+            m_drive.arcadeDrive(Constants.DriveTrain.DRIVE_TURN_AUTO, 0.0, 0.0);
         }else {
             stop = true;
             m_drive.arcadeDrive(0.0, 0.0, 0.0);

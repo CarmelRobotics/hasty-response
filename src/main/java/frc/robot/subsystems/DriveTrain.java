@@ -53,7 +53,7 @@ public class DriveTrain extends SubsystemBase
         sp_right2 = new CANSparkMax(Constants.DriveTrain.DRIVE_CAN_RIGHT2, MotorType.kBrushless);
 
         f_field = new Field2d();
-        o_odometry.resetPosition(new Pose2d(new Translation2d(6,5), new Rotation2d(0.0)), new Rotation2d(0.0));
+        o_odometry.resetPosition(new Pose2d(new Translation2d(6.744,4.473), new Rotation2d(-28.2)), new Rotation2d(0.0));
         f_field.setRobotPose(new Pose2d(new Translation2d(5,5), new Rotation2d(0.0)));
         spg_left = new MotorControllerGroup(sp_left1, sp_left2);
         spg_right = new MotorControllerGroup(sp_right1, sp_right2);
@@ -76,10 +76,10 @@ public class DriveTrain extends SubsystemBase
     }
     public void arcadeDrive(double x, double y, double z){
       if(fineTune.get()){
-        dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER*.6, (y*.7));
+        dd_drive.arcadeDrive(x, y);
       }
       else{
-        dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER, (y*.7));
+        dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER, (y*.40));
 
       }
       System.out.println("running arcade drive");

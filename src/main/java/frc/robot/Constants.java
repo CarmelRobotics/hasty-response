@@ -30,8 +30,10 @@ public final class Constants {
         public static final int DRIVE_DIO_ENC_RIGHT2 =  8;
         public static final double DRIVE_DISTANCE_PER_PULSE = 1.22/28.04; //default
 
-        public static final double DRIVE_PIVOT_SPEED = 0.2;
-        public static final double DRIVE_SPEED_MULTIPLIER = 0.8;
+        public static final double DRIVE_PIVOT_SPEED_BASE = 0.1;
+        public static final double DRIVE_TURN_AUTO = 0.6;
+        public static final double DRIVE_PIVOT_SPEED_MOD = 30.0;
+        public static final double DRIVE_SPEED_MULTIPLIER = 0.36;
     }
     public static final class Lighting {
         public static final int RING_DIO = 2;
@@ -86,6 +88,9 @@ public final class Constants {
         public static final int SHOOTER_PWM_1 = 1;
         public static final int SERVO_PWM = 7;
         public static final int SERVO_PWM_2 = 8;
+        public static final int LS_CAN = 10;
+        public static final int DIO_LIM = 0;
+        public static final int DIO_LIM2 = 1;
         public static final boolean ADJUST_HOOD = true;
 
         public static final double MIN_SPEED = 0.46;

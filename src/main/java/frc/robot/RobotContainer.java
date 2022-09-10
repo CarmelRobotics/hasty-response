@@ -21,7 +21,6 @@ import frc.robot.commands.IntakeClose;
 import frc.robot.commands.IntakeOpen;
 import frc.robot.commands.OverrideDistance;
 import frc.robot.commands.PivotToTarget;
-import frc.robot.commands.PivotToTargetNew;
 import frc.robot.commands.PrintLog;
 import frc.robot.commands.RecordBall;
 import frc.robot.commands.ResetServo;
@@ -29,6 +28,7 @@ import frc.robot.commands.SetShooterServo;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootConstant;
 import frc.robot.commands.ShootDavid;
+import frc.robot.commands.TurretPivot;
 import frc.robot.commands.setRingLight;
 import frc.robot.subsystems.BTS;
 import frc.robot.subsystems.DriveTrain;
@@ -37,6 +37,7 @@ import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 import pabeles.concurrency.ConcurrencyOps.Reset;
 
 /**
@@ -50,6 +51,7 @@ public class RobotContainer {
   private final Joystick j_joystick = new Joystick(Constants.Controls.JOYSTICK_USB);
   private final Joystick j_guitar = new Joystick(Constants.Controls.GUITAR_USB);
   private final DriveTrain m_driveTrain = new DriveTrain();
+  private final Turret m_turret = new Turret();
   private final Shooter m_shooter = new Shooter();
   private final Intake m_intake = new Intake();
   private final BTS m_bts = new BTS();
@@ -123,7 +125,7 @@ public class RobotContainer {
    // b_hanger_open.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_OPEN));
     //b_hanger_closed.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_CLOSED));
     b_overrideServo.whenPressed(new OverrideDistance(m_shooter));
-    b_pivotToTarget.whileHeld(new PivotToTarget(m_shooter, m_driveTrain));
+    b_pivotToTarget.whileHeld(new TurretPivot(m_shooter, m_turret));
     b_resetServoPos.whenPressed(new ResetServo(m_shooter));
     b_printLog.whenPressed(new PrintLog(m_fileIO));
     b_recordHit.whenPressed(new RecordBall(m_fileIO));

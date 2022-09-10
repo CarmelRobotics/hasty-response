@@ -47,10 +47,7 @@ public class ShootConstant extends CommandBase {
     time.start();
     setServoPos = false;
     firstLoop = true;
-    if (!m_intake.isDown) {
-      m_intake.extendIntake();
-    }
-    
+    m_intake.extendIntake();
   }
   
   public void runShoot() { //seperated to reduce reduncency with auto.
@@ -71,7 +68,7 @@ public class ShootConstant extends CommandBase {
     }else {
       speed = (((distance - Constants.Shooter.MIN_DIST) / (Constants.Shooter.MAX_DIST - Constants.Shooter.MIN_DIST)) * (Constants.Shooter.MAX_SPEED-Constants.Shooter.MIN_SPEED)) + Constants.Shooter.MIN_SPEED;
     }
-    speed *= 0.98;
+    speed *= 0.97;
     double avg_dist = (Constants.Shooter.MIN_DIST + Constants.Shooter.MAX_DIST)/2.0;
     if (distance <= avg_dist) {
       backPercent = 1.0;
@@ -79,7 +76,8 @@ public class ShootConstant extends CommandBase {
       backPercent = (distance-avg_dist) / (Constants.Shooter.MAX_DIST-avg_dist) * (-0.1) + 1.0;
     }
     SmartDashboard.putNumber("Shooter Speed", speed);
-    m_shooter.shootAngled(speed, backPercent);
+    // m_shooter.shootAngled(speed, backPercent);
+    m_shooter.shootAngled((m_joy.getRawAxis(3)+1.0)/2.0, 1.0);
     
     if (time.hasElapsed(1.0)) {
       m_intake.enableDoghouse();

@@ -34,6 +34,7 @@ public final class Constants {
         public static final double DRIVE_TURN_AUTO = 0.6;
         public static final double DRIVE_PIVOT_SPEED_MOD = 30.0;
         public static final double DRIVE_SPEED_MULTIPLIER = 0.36;
+        public static final double DRIVE_ACCELERATION_LIMIT = 1.5;
     }
     public static final class Lighting {
         public static final int RING_DIO = 2;

@@ -1,10 +1,12 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
 public class Drive extends CommandBase{
@@ -12,6 +14,7 @@ public class Drive extends CommandBase{
     private Joystick j_joystick;
     NetworkTableEntry joystickX;
     NetworkTableEntry joystickY;
+    private SlewRateLimiter acc_clamp;
   /**
    * Creates a new ExampleCommand.
    *
@@ -24,6 +27,7 @@ public class Drive extends CommandBase{
     NetworkTable table = inst.getTable("RPi");
     joystickX = table.getEntry("joystickX");
     joystickY = table.getEntry("joystickY");
+    acc_clamp = new SlewRateLimiter(Constants.DriveTrain.DRIVE_ACCELERATION_LIMIT);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(s_driveTrain);
@@ -38,7 +42,7 @@ public class Drive extends CommandBase{
   public void execute() {
     joystickX.setDouble(j_joystick.getX());
     joystickY.setDouble(j_joystick.getY());
-    s_driveTrain.arcadeDrive(j_joystick.getX(), j_joystick.getY(), 0.0);
+    s_driveTrain.arcadeDrive(acc_clamp.calculate(j_joystick.getX()), j_joystick.getY(), 0.0);
   }
 
   // Called once the command ends or is interrupted.

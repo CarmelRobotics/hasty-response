@@ -40,6 +40,6 @@ public class Auto extends SequentialCommandGroup {
             new AutoIntakeOpen(intake),
             new ShootConstant(shooter, intake, bts, fileIO));
             
-    } //WOOOHOOO
+    }
 
 }

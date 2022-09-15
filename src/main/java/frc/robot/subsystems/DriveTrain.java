@@ -58,31 +58,31 @@ public class DriveTrain extends SubsystemBase
         spg_left = new MotorControllerGroup(sp_left1, sp_left2);
         spg_right = new MotorControllerGroup(sp_right1, sp_right2);
         dd_drive = new DifferentialDrive(spg_left, spg_right);
-        startEncoderVal_left = getEncoderLeft();
-        startEncoderVal_right = getEncoderRight();
+        startEncoderVal_left = (sp_left1.getEncoder().getPosition() + sp_left2.getEncoder().getPosition())/2.0;
+        startEncoderVal_right = (sp_right1.getEncoder().getPosition() + sp_right2.getEncoder().getPosition())/2.0;
         joy = new Joystick(0);
         fineTune = new JoystickButton(joy, Constants.Controls.BUTTON_FINE_TUNE);
         // enc_Left = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_LEFT1, Constants.DriveTrain.DRIVE_DIO_ENC_LEFT2, false);
         // enc_Right = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT1, Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT2, false);
         // enc_Left.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_LEFT);
         // enc_Right.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_RIGHT);
-        // enc_Left.reset();
-        // enc_Right.reset();
-        
+                
         NAVX.zeroYaw();
     }
     public double getAngle() {
       return NAVX.getAngle();
     }
     public void arcadeDrive(double x, double y, double z){
-      if(fineTune.get()){
-        dd_drive.arcadeDrive(x, y);
-      }
-      else{
-        dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER, (y*.40));
+      dd_drive.arcadeDrive(x, y);
+      return;
+      // if(fineTune.get()){
+      //   dd_drive.arcadeDrive(x, y);
+      // }
+      // else{
+      //   dd_drive.arcadeDrive(x*Constants.DriveTrain.DRIVE_SPEED_MULTIPLIER, (y*.40));
 
-      }
-      System.out.println("running arcade drive");
+      // }
+      // System.out.println("running arcade drive");
     }
     double getEncoderLeft() {
       return ((sp_left1.getEncoder().getPosition() + sp_left2.getEncoder().getPosition())/2.0-startEncoderVal_left)*Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE;

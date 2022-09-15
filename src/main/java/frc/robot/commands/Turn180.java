@@ -24,6 +24,7 @@ public class Turn180 extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        m_drive.NAVX.reset();
         initAngle = m_drive.NAVX.getAngle();
     }
   

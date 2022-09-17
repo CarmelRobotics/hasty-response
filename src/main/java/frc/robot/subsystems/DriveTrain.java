@@ -42,6 +42,7 @@ public class DriveTrain extends SubsystemBase
     private DifferentialDriveOdometry o_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
     boolean isSpark = false;
     
+    public double NAVX_initAngle = 0;
     //an array of speed controller pointers for spark max specific code
     //public ArrayList<CANSparkMax> sparkMotors; //NOTE: ONLY ACCESS IF isSpark IS TRUE
     
@@ -74,6 +75,11 @@ public class DriveTrain extends SubsystemBase
     public double getAngle() {
       return NAVX.getAngle();
     }
+    public double getAngleDif() {
+      double currentAngle = NAVX.getAngle();
+      return Math.abs(currentAngle-NAVX_initAngle);
+    }
+
     public void arcadeDrive(double x, double y, double z){
       if(fineTune.get()){
         dd_drive.arcadeDrive(x, y);

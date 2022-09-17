@@ -119,4 +119,9 @@ public final class Constants {
         public static final int BTS_ROLLER_PWM = 3;
         public static final double BTS_SPEED = 1.0;
     }
+    public static final class Auto {
+        public static final double turnP = 0.5;
+        public static final double turnI = 0.0;
+        public static final double turnD = 0.0;
+    }
 }

@@ -38,7 +38,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
-import pabeles.concurrency.ConcurrencyOps.Reset;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -50,7 +49,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Joystick j_joystick = new Joystick(Constants.Controls.JOYSTICK_USB);
   private final Joystick j_guitar = new Joystick(Constants.Controls.GUITAR_USB);
-  private final DriveTrain m_driveTrain = new DriveTrain();
+  public final DriveTrain m_driveTrain = new DriveTrain();
   private final Turret m_turret = new Turret();
   private final Shooter m_shooter = new Shooter();
   private final Intake m_intake = new Intake();

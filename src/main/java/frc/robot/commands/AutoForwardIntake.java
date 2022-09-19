@@ -8,13 +8,14 @@ import frc.robot.subsystems.Intake;
 public class AutoForwardIntake extends CommandBase {
     private DriveTrain drive;
     private Intake intake;
-    private double speed = 0.5;
+    private double speed = 0.75;
     private double distance; //in meters 
     private double initDistance;
-    public AutoForwardIntake(DriveTrain dt, Intake i, double dist){
+    public AutoForwardIntake(DriveTrain dt, Intake i, double sp, double dist){
         addRequirements(dt);
         drive = dt;
         distance = dist;
+        speed = sp;
         intake = i;
         initDistance = 0;
     }
@@ -34,6 +35,6 @@ public class AutoForwardIntake extends CommandBase {
     }
     @Override
   public boolean isFinished() {
-    return (drive.getEncoder()-initDistance) > distance;
+    return Math.abs(drive.getEncoder()-initDistance)>Math.abs(distance);
   }
 }

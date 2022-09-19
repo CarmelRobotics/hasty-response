@@ -31,7 +31,7 @@ public final class Constants {
         public static final double DRIVE_DISTANCE_PER_PULSE = 1.22/28.04; //default
 
         public static final double DRIVE_PIVOT_SPEED_BASE = 0.1;
-        public static final double DRIVE_TURN_AUTO = 0.6;
+        public static final double DRIVE_TURN_AUTO = 0.4;
         public static final double DRIVE_PIVOT_SPEED_MOD = 30.0;
         public static final double DRIVE_SPEED_MULTIPLIER = 0.36;
         public static final double DRIVE_ACCELERATION_LIMIT = 1.5;
@@ -118,5 +118,10 @@ public final class Constants {
     public static final class BTS {
         public static final int BTS_ROLLER_PWM = 3;
         public static final double BTS_SPEED = 1.0;
+    }
+    public static final class Auto {
+        public static final double turnP = 0.5;
+        public static final double turnI = 0.0;
+        public static final double turnD = 0.0;
     }
 }

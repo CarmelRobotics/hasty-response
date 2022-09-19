@@ -10,11 +10,11 @@ import frc.robot.subsystems.Shooter;
 public class Auto extends SequentialCommandGroup {
     public Auto(DriveTrain drive, Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) {
         //Auto2(drive, shooter, intake, bts, fileIO);
-        Auto2(drive, shooter, intake, bts, fileIO);
+        AutoTest(drive, shooter, intake, bts, fileIO);
     }
     private void Auto1(DriveTrain drive, Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) { //Uses limelight to lock onto target: shoots two balls
         addCommands(new AutoIntakeOpen(intake),
-            new AutoForwardIntake(drive, intake, 1.5/*value must change later*/),
+            new AutoForwardIntake(drive, intake, .75, 1.5/*value must change later*/),
             new AutoMove(drive, -0.4, 0.5),
             new AutoTurnUntilTarget(drive, shooter),
             new PivotToTarget(shooter, drive),
@@ -22,7 +22,7 @@ public class Auto extends SequentialCommandGroup {
     }
     private void Auto2(DriveTrain drive, Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) { //Turns 180 degrees with the navx to look at the target: shoots two balls
         addCommands(new AutoIntakeOpen(intake),
-            new AutoForwardIntake(drive, intake, 2.5/*value must change later*/),
+            new AutoForwardIntake(drive, intake, .75, 2.5/*value must change later*/),
             new AutoMove(drive, -0.7, 0.5),
             new Turn180(drive),
             new AutoPivotToTarget(shooter, drive),
@@ -41,5 +41,11 @@ public class Auto extends SequentialCommandGroup {
             new ShootConstant(shooter, intake, bts, fileIO));
             
     }
+    private void AutoTest(DriveTrain drive, Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) { //starts out up against the target, shoots to lower, then moves back: shoots one ball
+        addCommands(
+           // new AutoForwardIntake(drive, intake, .75, 0.5)
+           new Turn180(drive)
 
+        );
+    }
 }

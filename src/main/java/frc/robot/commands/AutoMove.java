@@ -13,7 +13,7 @@ public class AutoMove  extends CommandBase{
         addRequirements(dt);
         drive = dt;
         this.speed = speed;
-        this.distance = -dist;
+        this.distance = dist;
     }
     @Override
     public void initialize(){
@@ -21,7 +21,7 @@ public class AutoMove  extends CommandBase{
         initDistance = drive.getEncoder();
     }
     public void execute (){
-        
+        System.out.println("encoder: " + (drive.getEncoder()-initDistance) + "\n");
         drive.arcadeDrive(0, -speed, .0);
     }
     @Override
@@ -30,7 +30,7 @@ public class AutoMove  extends CommandBase{
     }
     @Override
   public boolean isFinished() {
-    return (drive.getEncoder()-initDistance)<distance;
+    return Math.abs(drive.getEncoder()-initDistance)>Math.abs(distance);
   }
 }
 

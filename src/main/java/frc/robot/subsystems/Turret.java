@@ -62,6 +62,24 @@ public class Turret extends SubsystemBase {
     }
   }
   public void moveTurret(double x){
-    sp_turret.set(x);
-  }
+   if(x>0){
+     if(!limit1.get()){
+        sp_turret.set(x);
+     } else{
+       sp_turret.set(0);
+     }
+   }else if(x<0){
+     if(!limit2.get()){
+       sp_turret.set(x);
+     }else{
+       sp_turret.set(0);
+     }
+   }else{
+     sp_turret.set(0);
+   }
+    // sp_turret.set(x);
+    // if(checkLimit()){
+    //   sp_turret.set(0);
+    // }
+}
 }

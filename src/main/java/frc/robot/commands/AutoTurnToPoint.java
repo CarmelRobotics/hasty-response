@@ -10,18 +10,25 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 
-public class Turn180 extends CommandBase {
+public class AutoTurnToPoint extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final DriveTrain m_drive;
     private boolean stop = false;
     private double initAngle = 0.0;
+    private double turnToAngle = 90;
+    private double pointX;
+    private double pointY;
+
+    private int dir = 1; //-1 is left, 1 is right
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public Turn180(DriveTrain d) {
+    public AutoTurnToPoint(DriveTrain d, double x, double y) {
         m_drive = d;
+        pointX = x;
+        pointY = y;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(d);
         
@@ -31,11 +38,21 @@ public class Turn180 extends CommandBase {
     @Override
     public void initialize() {
         m_drive.NAVX_initAngle = m_drive.NAVX.getAngle();
-        
+        turnToAngle = Math.atan2(pointY, pointX);
+        turnToAngle *= (180.0/Math.PI); //radians to degrees
+        if (turnToAngle < 0) {turnToAngle += 360.0;}
+        if (turnToAngle > 360.0) {turnToAngle -= 360.0;}
+
+        if (turnToAngle > 180) {
+            dir = -1;
+        }else {
+            dir = 1;
+        }
+        SmartDashboard.putNumber("Auto turn to angle", turnToAngle);
     }
     @Override
     public void execute() {
-        m_drive.arcadeDrive(0.3, 0, 0);
+        m_drive.arcadeDrive(0.3 * (double) dir, 0, 0);
         SmartDashboard.putNumber("angle dif value", m_drive.NAVX.getAngle());
 
     }
@@ -48,6 +65,7 @@ public class Turn180 extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return m_drive.getAngleDif(180) < 2;
+      
+      return m_drive.getAngleDif(turnToAngle) < 2;
     }
 }

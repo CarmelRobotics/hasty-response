@@ -8,46 +8,60 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class Turn180 extends CommandBase {
+public class AutoMoveToPointAndIntake extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final DriveTrain m_drive;
-    private boolean stop = false;
-    private double initAngle = 0.0;
+    private final Intake m_intake;
+    private double pointX;
+    private double pointY;
+    private double speed = 0.4;
+    private double distance; //in meters 
+    private double initDistance;
+
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public Turn180(DriveTrain d) {
+    public AutoMoveToPointAndIntake(DriveTrain d, Intake i, double x, double y) {
         m_drive = d;
+        m_intake = i;
+        pointX = x;
+        pointY = y;
+        distance = Math.sqrt(Math.pow(pointX - 0, 2) + Math.pow(pointY - 0, 2) )-0.3;
+        SmartDashboard.putNumber("Point Distance", distance);
+        initDistance = 0;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(d);
+        addRequirements(d, i);
         
     }
   
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_drive.NAVX_initAngle = m_drive.NAVX.getAngle();
-        
+        initDistance = m_drive.getEncoder();
+
     }
     @Override
     public void execute() {
-        m_drive.arcadeDrive(0.3, 0, 0);
-        SmartDashboard.putNumber("angle dif value", m_drive.NAVX.getAngle());
+        m_intake.enableMotor(false);
+        m_drive.arcadeDrive(0, -speed, .0);
+
 
     }
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_drive.arcadeDrive(0, 0, 0);
+        m_drive.arcadeDrive(0,0,0);
+        m_intake.disableMotor();  
     }
   
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return m_drive.getAngleDif(180) < 2;
+      return Math.abs(m_drive.getEncoder()-initDistance)>Math.abs(distance);
     }
 }

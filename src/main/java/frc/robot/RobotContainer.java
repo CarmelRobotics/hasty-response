@@ -19,6 +19,7 @@ import frc.robot.commands.HangUp;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.IntakeClose;
 import frc.robot.commands.IntakeOpen;
+import frc.robot.commands.ManualTurret;
 import frc.robot.commands.OverrideDistance;
 import frc.robot.commands.PivotToTarget;
 import frc.robot.commands.PrintLog;
@@ -59,7 +60,7 @@ public class RobotContainer {
   private final FileReadWrite m_fileIO = new FileReadWrite();
   private final Auto a_auto = new Auto(m_driveTrain, m_shooter, m_intake, m_bts, m_fileIO);
   private final ResetServo m_resetServo = new ResetServo(m_shooter);
-
+  private final ManualTurret m_manualTurret = new ManualTurret(m_turret, j_joystick);
   //joystick
   private final JoystickButton b_intakeExtend;
   private final JoystickButton b_intakeRetract;
@@ -72,7 +73,7 @@ public class RobotContainer {
   private final JoystickButton b_runShooter;
   private final JoystickButton b_overrideServo;
   private final JoystickButton b_pivotToTarget;
-
+  private final JoystickButton b_overrideTurret;
   //private final JoystickButton b_intakeToShoot;
 
   private final JoystickButton b_intakeExtend_guitar;
@@ -85,6 +86,7 @@ public class RobotContainer {
   private final JoystickButton b_recordHit;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    b_overrideTurret = new JoystickButton(j_joystick, 5);
     b_hanger_up = new JoystickButton(j_joystick, Constants.Controls.BUTTON_HANGER_UP);
     b_hanger_down = new JoystickButton(j_joystick, Constants.Controls.BUTTON_HANGER_DOWN);
     b_runShooter = new JoystickButton(j_joystick, Constants.Controls.BUTTON_SHOOT_FLYWHEEL);
@@ -116,6 +118,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    b_overrideTurret.whenPressed(new ManualTurret(m_turret, j_joystick));
     m_lights.setDefaultCommand(new setRingLight(m_lights, true));
     m_driveTrain.setDefaultCommand(new Drive(m_driveTrain, j_joystick));
     m_shooter.setDefaultCommand(new SetShooterServo(m_shooter, j_joystick));

@@ -73,9 +73,14 @@ public class DriveTrain extends SubsystemBase
     public double getAngle() {
       return NAVX.getAngle();
     }
-    public double getAngleDif() {
-      double currentAngle = NAVX.getAngle();
-      return Math.abs(currentAngle-NAVX_initAngle);
+    public double getAngleDif(double target) {
+      double currentAngle = getAngle();
+      double val = currentAngle-NAVX_initAngle;
+      if (val < 0) {val += 360;}
+      if (val > 360) {val -= 360;}
+
+
+      return Math.abs(val-target);
     }
 
     public void arcadeDrive(double x, double y, double z){

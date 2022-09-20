@@ -23,9 +23,9 @@ public class Turret extends SubsystemBase {
     private RelativeEncoder enc;
   /** Creates a new ExampleSubsystem. */
   public Turret() {
-    sp_turret = new CANSparkMax(Constants.Shooter.LS_CAN,MotorType.kBrushless);
+    sp_turret = new CANSparkMax(Constants.Shooter.LS_CAN,MotorType.kBrushed);
     limit1 = new DigitalInput(Constants.Shooter.DIO_LIM);
-    enc = sp_turret.getEncoder();
+   // enc = sp_turret.getEncoder();
     limit2 = new DigitalInput(Constants.Shooter.DIO_LIM2);
 
   }
@@ -43,11 +43,11 @@ public class Turret extends SubsystemBase {
     while(!limit1.get()){
       sp_turret.set(0.1);
     }
-    left_limit = enc.getPosition();
+    //left_limit = enc.getPosition();
     while(!limit2.get()){
       sp_turret.set(-0.1);
     }
-    right_limit = enc.getPosition();
+   // right_limit = enc.getPosition();
 
   }
   public boolean checkLimit(){

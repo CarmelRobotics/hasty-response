@@ -69,14 +69,14 @@ public class Shooter extends SubsystemBase {
   public double getTX() {
     NetworkTableEntry tx = nt_table.getEntry("tx");
     if (!tx.exists()) {
-      System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TX");
+      //System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TX");
     }
     return tx.getDouble(0.0);
   }
   public double getTY() {
     NetworkTableEntry ty = nt_table.getEntry("ty");
     if (!ty.exists()) {
-      System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TY");
+      //System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TY");
     }
     return ty.getDouble(10.0);
   }
@@ -84,7 +84,7 @@ public class Shooter extends SubsystemBase {
     NetworkTableEntry tv = nt_table.getEntry("tv");
     
     if (!tv.exists()) {
-      System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TV");
+      //System.out.println("ERROR: INVALID NETWORK TABLE ENTRY TV");
     }
     return tv.getNumber(0.0).intValue() == 1;
   }

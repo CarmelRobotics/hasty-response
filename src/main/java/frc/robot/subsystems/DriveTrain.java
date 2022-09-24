@@ -67,9 +67,8 @@ public class DriveTrain extends SubsystemBase
         // enc_Right = new Encoder(Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT1, Constants.DriveTrain.DRIVE_DIO_ENC_RIGHT2, false);
         // enc_Left.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_LEFT);
         // enc_Right.setDistancePerPulse(Constants.DriveTrain.DRIVE_DISTANCE_PER_PULSE_RIGHT);
-                
-        NAVX.zeroYaw();
-    }
+        
+      }
     public double getAngle() {
       return NAVX.getAngle();
     }
@@ -121,14 +120,15 @@ public class DriveTrain extends SubsystemBase
       SmartDashboard.putNumber("Encoder Left 2 Raw", sp_left2.getEncoder().getPosition());
 
       SmartDashboard.putNumber("Encoder Avg", getEncoder());
-      o_odometry.update(NAVX.getRotation2d(), -getEncoderLeft(), getEncoderRight());
+      o_odometry.update(new Rotation2d((NAVX.getAngle() + 90) * (Math.PI/180.0)), -getEncoderLeft(), getEncoderRight());
       SmartDashboard.putData("Field", f_field);
       f_field.setRobotPose(o_odometry.getPoseMeters());
 
       
+      
 
       SmartDashboard.putBoolean("NAVX1 Connected", NAVX.isConnected());
-     
+      SmartDashboard.putNumber("NAVX VALUE", NAVX.getAngle());
     }
     
 }

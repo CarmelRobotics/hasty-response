@@ -144,7 +144,8 @@ public class RobotContainer {
       b_intakeExtend.whenPressed(new IntakeOpen(m_intake));
       b_intakeRetract.whenPressed(new IntakeClose(m_intake));
     }
-
+    m_driveTrain.NAVX.zeroYaw();
+    m_driveTrain.NAVX.reset();
     //b_intakeToShoot.whileHeld(new IntakeToShoot(m_intake, m_bts));
   }
 //This is a comment

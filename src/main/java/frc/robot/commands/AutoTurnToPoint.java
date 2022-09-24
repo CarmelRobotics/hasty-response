@@ -37,7 +37,7 @@ public class AutoTurnToPoint extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_drive.NAVX_initAngle = m_drive.NAVX.getAngle();
+        //m_drive.NAVX_initAngle = m_drive.o_odometry.getPoseMeters().getRotation().getRadians();
         turnToAngle = Math.atan2(pointY-m_drive.o_odometry.getPoseMeters().getY(), pointX-m_drive.o_odometry.getPoseMeters().getX());
         turnToAngle *= (180.0/Math.PI); //radians to degrees
         if (turnToAngle < 0) {turnToAngle += 360.0;}
@@ -52,7 +52,7 @@ public class AutoTurnToPoint extends CommandBase {
     }
     @Override
     public void execute() {
-        m_drive.arcadeDrive(0.3 * (double) dir, 0, 0);
+        m_drive.arcadeDrive(0.3 * (double) -dir, 0, 0);
         SmartDashboard.putNumber("angle dif value", m_drive.NAVX.getAngle());
 
     }

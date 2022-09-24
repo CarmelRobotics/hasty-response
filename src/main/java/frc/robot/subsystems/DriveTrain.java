@@ -39,7 +39,7 @@ public class DriveTrain extends SubsystemBase
     private JoystickButton fineTune;
     // private Encoder enc_Left, enc_Right;
     public AHRS NAVX = new AHRS(I2C.Port.kOnboard);
-    private DifferentialDriveOdometry o_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
+    public DifferentialDriveOdometry o_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
     boolean isSpark = false;
     
     public double NAVX_initAngle = 0;
@@ -54,7 +54,7 @@ public class DriveTrain extends SubsystemBase
         sp_right2 = new CANSparkMax(Constants.DriveTrain.DRIVE_CAN_RIGHT2, MotorType.kBrushless);
 
         f_field = new Field2d();
-        o_odometry.resetPosition(new Pose2d(new Translation2d(6.744,4.473), new Rotation2d(-28.2)), new Rotation2d(0.0));
+        o_odometry.resetPosition(new Pose2d(new Translation2d(2.062, 5.486), new Rotation2d(0)), new Rotation2d(0.0));
         f_field.setRobotPose(new Pose2d(new Translation2d(5,5), new Rotation2d(0.0)));
         spg_left = new MotorControllerGroup(sp_left1, sp_left2);
         spg_right = new MotorControllerGroup(sp_right1, sp_right2);
@@ -74,13 +74,14 @@ public class DriveTrain extends SubsystemBase
       return NAVX.getAngle();
     }
     public double getAngleDif(double target) {
-      double currentAngle = getAngle();
+      double currentAngle = o_odometry.getPoseMeters().getRotation().getDegrees();
       double val = currentAngle-NAVX_initAngle;
       if (val < 0) {val += 360;}
       if (val > 360) {val -= 360;}
 
-
+      
       return Math.abs(val-target);
+      
     }
 
     public void arcadeDrive(double x, double y, double z){
@@ -104,6 +105,9 @@ public class DriveTrain extends SubsystemBase
     public double getEncoder() {
       return (((-getEncoderLeft())+getEncoderRight())/2.0);
     }
+    public Translation2d getPos() {
+      return o_odometry.getPoseMeters().getTranslation();
+    }
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
@@ -120,6 +124,9 @@ public class DriveTrain extends SubsystemBase
       o_odometry.update(NAVX.getRotation2d(), -getEncoderLeft(), getEncoderRight());
       SmartDashboard.putData("Field", f_field);
       f_field.setRobotPose(o_odometry.getPoseMeters());
+
+      
+
       SmartDashboard.putBoolean("NAVX1 Connected", NAVX.isConnected());
      
     }

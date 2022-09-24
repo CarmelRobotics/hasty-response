@@ -38,7 +38,7 @@ public class AutoTurnToPoint extends CommandBase {
     @Override
     public void initialize() {
         m_drive.NAVX_initAngle = m_drive.NAVX.getAngle();
-        turnToAngle = Math.atan2(pointY, pointX);
+        turnToAngle = Math.atan2(pointY-m_drive.o_odometry.getPoseMeters().getY(), pointX-m_drive.o_odometry.getPoseMeters().getX());
         turnToAngle *= (180.0/Math.PI); //radians to degrees
         if (turnToAngle < 0) {turnToAngle += 360.0;}
         if (turnToAngle > 360.0) {turnToAngle -= 360.0;}

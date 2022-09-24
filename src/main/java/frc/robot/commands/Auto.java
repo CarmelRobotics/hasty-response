@@ -48,8 +48,8 @@ public class Auto extends SequentialCommandGroup {
            new AutoMoveToPointAndIntake(drive, intake, 3.658, 5.486),
 
            //ball 2
-           new AutoTurnToPoint(drive, 3.658, 5.486),
-           new AutoMoveToPointAndIntake(drive, intake, 3.658, 5.486)
+           new AutoTurnToPoint(drive, 3.972, 4.242),
+           new AutoMoveToPointAndIntake(drive, intake, 3.972, 4.242)
 
 
         );

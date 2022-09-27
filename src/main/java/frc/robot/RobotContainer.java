@@ -30,7 +30,6 @@ import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootConstant;
 import frc.robot.commands.ShootDavid;
 import frc.robot.commands.TurretPivot;
-import frc.robot.commands.setRingLight;
 import frc.robot.subsystems.BTS;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.FileReadWrite;
@@ -119,7 +118,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     b_overrideTurret.whenPressed(new ManualTurret(m_turret, j_joystick));
-    m_lights.setDefaultCommand(new setRingLight(m_lights, true));
     m_driveTrain.setDefaultCommand(new Drive(m_driveTrain, j_joystick));
     m_shooter.setDefaultCommand(new SetShooterServo(m_shooter, j_joystick));
     b_runShooter.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts, m_fileIO));
@@ -127,7 +125,7 @@ public class RobotContainer {
    // b_hanger_open.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_OPEN));
     //b_hanger_closed.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_CLOSED));
     b_overrideServo.whenPressed(new OverrideDistance(m_shooter));
-    b_pivotToTarget.whileHeld(new TurretPivot(m_shooter, m_turret));
+    b_pivotToTarget.whileHeld(new TurretPivot(m_shooter, m_turret, m_lights));
     b_resetServoPos.whenPressed(new ResetServo(m_shooter));
     b_printLog.whenPressed(new PrintLog(m_fileIO));
     b_recordHit.whenPressed(new RecordBall(m_fileIO));

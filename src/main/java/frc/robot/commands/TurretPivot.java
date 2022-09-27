@@ -3,12 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
 
 public class TurretPivot extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final Shooter m_shooter;
+    private final Lighting indicator;
     private final Turret m_turret;
     private boolean stop = false;
     /**
@@ -16,9 +18,10 @@ public class TurretPivot extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public TurretPivot(Shooter s, Turret t) {
+    public TurretPivot(Shooter s, Turret t, Lighting l) {
       m_shooter = s;
       m_turret = t;
+      indicator = l;
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(s);
     }
@@ -61,11 +64,15 @@ public class TurretPivot extends CommandBase {
                 debug = "seeing target";
                 stop = true;
                 m_turret.moveTurret(0);
+                indicator.setAimIndicator(true);
+
     
             }
         }else {
             //m_drive.arcadeDrive(0.65, 0, 0); // turn right
             debug = "target not found, spinning until target is seen";
+            indicator.setAimIndicator(false);
+
 
         }
         SmartDashboard.putString("turret debug", debug);

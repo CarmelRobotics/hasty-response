@@ -117,7 +117,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    b_overrideTurret.whenPressed(new ManualTurret(m_turret, j_joystick));
+    b_overrideTurret.whileHeld(new ManualTurret(m_turret, j_joystick));
     m_driveTrain.setDefaultCommand(new Drive(m_driveTrain, j_joystick));
     m_shooter.setDefaultCommand(new SetShooterServo(m_shooter, j_joystick));
     b_runShooter.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts, m_fileIO));

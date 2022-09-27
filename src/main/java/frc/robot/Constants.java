@@ -37,7 +37,8 @@ public final class Constants {
         public static final double DRIVE_ACCELERATION_LIMIT = 1.5;
     }
     public static final class Lighting {
-        public static final int RING_DIO = 2;
+        public static final int RED_DIO = 2;
+        public static final int GREEN_DIO = 3;
     }
     public static final class Controls {
         public static final boolean useGuitar = false;

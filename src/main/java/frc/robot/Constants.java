@@ -103,7 +103,7 @@ public final class Constants {
     }
     public static final class Vision {
         public static final double VISION_TARGET_HEIGHT = 104.0; //inches
-        public static final double VISION_CAMERA_HEIGHT = 36.0; //inches
+        public static final double VISION_CAMERA_HEIGHT = 50.0; //inches
         public static final double VISION_CAMERA_ANGLE = 31.5; //degrees
     }
     public static final class Intake {

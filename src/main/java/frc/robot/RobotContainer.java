@@ -120,7 +120,7 @@ public class RobotContainer {
     b_overrideTurret.whileHeld(new ManualTurret(m_turret, j_joystick));
     m_driveTrain.setDefaultCommand(new Drive(m_driveTrain, j_joystick));
     m_shooter.setDefaultCommand(new SetShooterServo(m_shooter, j_joystick));
-    b_runShooter.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts, m_fileIO));
+    b_runShooter.whileHeld(new Shoot(m_shooter, m_intake, m_bts));
     b_intakeSpin.whileHeld(new IntakeBall(m_intake, false));
    // b_hanger_open.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_OPEN));
     //b_hanger_closed.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_CLOSED));

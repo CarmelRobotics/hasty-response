@@ -36,7 +36,7 @@ public class AutoMoveToPointAndIntake extends CommandBase {
     @Override
     public void initialize() {
         initDistance = m_drive.getEncoder();
-        distance = Math.sqrt(Math.pow(pointX - m_drive.getPos().getX(), 2) + Math.pow(pointY - m_drive.getPos().getY(), 2) )-0.7;
+        distance = Math.sqrt(Math.pow(pointX - m_drive.getPos().getX(), 2) + Math.pow(pointY - m_drive.getPos().getY(), 2) )-0.4;
         SmartDashboard.putNumber("Point Distance", distance);
     }
     @Override

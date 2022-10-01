@@ -54,7 +54,7 @@ public class DriveTrain extends SubsystemBase
         sp_right2 = new CANSparkMax(Constants.DriveTrain.DRIVE_CAN_RIGHT2, MotorType.kBrushless);
 
         f_field = new Field2d();
-        o_odometry.resetPosition(new Pose2d(new Translation2d(2.062, 5.486), new Rotation2d(0)), new Rotation2d(0.0));
+        o_odometry.resetPosition(new Pose2d(new Translation2d(2.95, 5.51+0.5), new Rotation2d(0)), new Rotation2d(0.0));
         f_field.setRobotPose(new Pose2d(new Translation2d(5,5), new Rotation2d(0.0)));
         spg_left = new MotorControllerGroup(sp_left1, sp_left2);
         spg_right = new MotorControllerGroup(sp_right1, sp_right2);
@@ -120,7 +120,7 @@ public class DriveTrain extends SubsystemBase
       SmartDashboard.putNumber("Encoder Left 2 Raw", sp_left2.getEncoder().getPosition());
 
       SmartDashboard.putNumber("Encoder Avg", getEncoder());
-      o_odometry.update(new Rotation2d((NAVX.getAngle() + 90) * (Math.PI/180.0)), -getEncoderLeft(), getEncoderRight());
+      o_odometry.update(new Rotation2d((-NAVX.getAngle() + 90) * (Math.PI/180.0)), -getEncoderLeft(), getEncoderRight());
       SmartDashboard.putData("Field", f_field);
       f_field.setRobotPose(o_odometry.getPoseMeters());
 

@@ -49,6 +49,7 @@ public class AutoTurnToPoint extends CommandBase {
             dir = 1;
         }
         SmartDashboard.putNumber("Auto turn to angle", turnToAngle);
+        SmartDashboard.putNumber("Auto Dir", dir);
     }
     @Override
     public void execute() {

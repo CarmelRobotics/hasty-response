@@ -44,7 +44,7 @@ public class TurretPivot extends CommandBase {
                 double pivot_mod = abs_tx/60.0;
                 if (tx > 0) {
                     if(!m_turret.checkLimit()){
-                    m_turret.moveTurret(Constants.DriveTrain.DRIVE_PIVOT_SPEED_BASE+pivot_mod+0.08);; // turn right
+                    m_turret.moveTurret(-(Constants.DriveTrain.DRIVE_PIVOT_SPEED_BASE+pivot_mod+0.08));; // turn right
                     debug = "turn right";
                     } else{
                         debug = "right Reached limit";
@@ -52,7 +52,7 @@ public class TurretPivot extends CommandBase {
                     }
                 }else {
                     if(!m_turret.checkLimit()){
-                    m_turret.moveTurret(-(Constants.DriveTrain.DRIVE_PIVOT_SPEED_BASE+pivot_mod+0.08)); // turn left
+                    m_turret.moveTurret((Constants.DriveTrain.DRIVE_PIVOT_SPEED_BASE+pivot_mod+0.08)); // turn left
                     debug = "turn left";
                     }else{
                         debug = "left reached limit";
@@ -76,6 +76,7 @@ public class TurretPivot extends CommandBase {
 
         }
         SmartDashboard.putString("turret debug", debug);
+        System.out.println(debug);
 
     }
   

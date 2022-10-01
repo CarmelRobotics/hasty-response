@@ -44,12 +44,12 @@ public class Auto extends SequentialCommandGroup {
     private void AutoTest(DriveTrain drive, Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) { //starts out up against the target, shoots to lower, then moves back: shoots one ball
         addCommands(
            // ball 1
-           new AutoTurnToPoint(drive, 3.658, 5.486),
-           new AutoMoveToPointAndIntake(drive, intake, 3.658, 5.486),
+           new AutoTurnToPoint(drive, 1.524, 7.798),
+           new AutoMoveToPointAndIntake(drive, intake, 1.524, 7.798),
 
            //ball 2
-           new AutoTurnToPoint(drive, 3.972, 4.242),
-           new AutoMoveToPointAndIntake(drive, intake, 3.972, 4.242)
+           new AutoTurnToPoint(drive, 2.21, 4.42),
+           new AutoMoveToPointAndIntake(drive, intake, 2.21, 4.42)
 
 
         );

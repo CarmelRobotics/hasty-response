@@ -53,7 +53,7 @@ public class AutoTurnToPoint extends CommandBase {
     }
     @Override
     public void execute() {
-        m_drive.arcadeDrive(0.3 * (double) -dir, 0, 0);
+        m_drive.arcadeDrive(0.4 * (double) -dir, 0, 0);
         SmartDashboard.putNumber("angle dif value", m_drive.NAVX.getAngle());
 
     }
@@ -67,6 +67,6 @@ public class AutoTurnToPoint extends CommandBase {
     @Override
     public boolean isFinished() {
       
-      return m_drive.getAngleDif(turnToAngle) < 2;
+      return m_drive.getAngleDif(turnToAngle + (3 * -dir)) < 2;
     }
 }

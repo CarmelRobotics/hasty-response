@@ -30,12 +30,12 @@ public class Turn180 extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_drive.NAVX_initAngle = m_drive.NAVX.getAngle();
+        //m_drive.NAVX_initAngle = m_drive.NAVX.getAngle();
         
     }
     @Override
     public void execute() {
-        m_drive.arcadeDrive(0.3, 0, 0);
+        m_drive.arcadeDrive(-0.4, 0, 0);
         SmartDashboard.putNumber("angle dif value", m_drive.NAVX.getAngle());
 
     }
@@ -48,6 +48,6 @@ public class Turn180 extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return m_drive.getAngleDif(180) < 2;
+      return m_drive.getAngleDif(183) < 2;
     }
 }

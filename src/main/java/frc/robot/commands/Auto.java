@@ -54,4 +54,11 @@ public class Auto extends SequentialCommandGroup {
 
         );
     }
+    private void AutoTest2(DriveTrain drive, Shooter shooter, Intake intake, BTS bts, FileReadWrite fileIO) { //starts out up against the target, shoots to lower, then moves back: shoots one ball
+        addCommands(
+           new Turn180(drive)
+
+
+        );
+    }
 }

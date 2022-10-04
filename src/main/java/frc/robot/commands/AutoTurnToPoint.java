@@ -50,6 +50,7 @@ public class AutoTurnToPoint extends CommandBase {
         }
         SmartDashboard.putNumber("Auto turn to angle", turnToAngle);
         SmartDashboard.putNumber("Auto Dir", dir);
+        m_drive.NAVX_offset += (3 * -dir);
     }
     @Override
     public void execute() {
@@ -67,6 +68,6 @@ public class AutoTurnToPoint extends CommandBase {
     @Override
     public boolean isFinished() {
       
-      return m_drive.getAngleDif(turnToAngle + (3 * -dir)) < 2;
+      return m_drive.getAngleDif(turnToAngle) < 2;
     }
 }

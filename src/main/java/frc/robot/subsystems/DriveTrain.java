@@ -43,6 +43,7 @@ public class DriveTrain extends SubsystemBase
     boolean isSpark = false;
     
     public double NAVX_initAngle = 0;
+    public double NAVX_offset = 0;
     //an array of speed controller pointers for spark max specific code
     //public ArrayList<CANSparkMax> sparkMotors; //NOTE: ONLY ACCESS IF isSpark IS TRUE
     
@@ -73,6 +74,7 @@ public class DriveTrain extends SubsystemBase
       return NAVX.getAngle();
     }
     public double getAngleDif(double target) {
+      target += NAVX_offset;
       double currentAngle = o_odometry.getPoseMeters().getRotation().getDegrees();
       double val = currentAngle-NAVX_initAngle;
       if (val < 0) {val += 360;}

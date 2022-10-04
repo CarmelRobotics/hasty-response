@@ -75,8 +75,9 @@ public class ShootConstant extends CommandBase {
     } else {
       backPercent = (distance-avg_dist) / (Constants.Shooter.MAX_DIST-avg_dist) * (-0.1) + 1.0;
     }
-    SmartDashboard.putNumber("Shooter Speed", speed);
+    SmartDashboard.putNumber("Shooter Speed", ((m_joy.getRawAxis(3)+1.0)/2.0));
     // m_shooter.shootAngled(speed, backPercent);
+    
     m_shooter.shootAngled((m_joy.getRawAxis(3)+1.0)/2.0, 1.0);
     
     if (time.hasElapsed(1.0)) {

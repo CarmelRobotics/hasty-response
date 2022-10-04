@@ -39,7 +39,7 @@ public class TurretPivot extends CommandBase {
         double tx = m_shooter.getTX();
         double abs_tx = Math.abs(tx);
         if (m_shooter.getTV()) {
-            if (abs_tx > 1.2) {
+            if (abs_tx > 0.7) {
                 System.out.println("pivoting");
                 double pivot_mod = abs_tx/60.0;
                 if (tx > 0) {
@@ -48,6 +48,7 @@ public class TurretPivot extends CommandBase {
                     debug = "turn right";
                     } else{
                         debug = "right Reached limit";
+                        
                         m_turret.moveTurret(0);
                     }
                 }else {

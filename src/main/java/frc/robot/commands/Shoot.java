@@ -69,7 +69,7 @@ public class Shoot extends CommandBase {
       }else {
         System.out.println("neither");
         double percent = (distance-100.0)/450.00;
-        speed = (percent*(1.0/3.0)) + (2.0/3.0+.06);
+        speed = 0.00171766*distance+.306323;
         m_shooter.setServoPosition(-(percent*.6)+.76);
       }
       System.out.println("Using the maths");

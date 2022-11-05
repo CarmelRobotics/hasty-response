@@ -52,24 +52,24 @@ public class Turret extends SubsystemBase {
   }
   public boolean checkLimit(){
     if(limit1.get()){
-      return true;
+      return false;
     }
     else if(limit2.get()){
-      return true;
+      return false;
     }
     else{
-      return false;
+      return true;
     }
   }
   public void moveTurret(double x){
    if(x>0){
-     if(!limit1.get()){
+     if(limit1.get()){
         sp_turret.set(x);
      } else{
        sp_turret.set(0);
      }
    }else if(x<0){
-     if(!limit2.get()){
+     if(limit2.get()){
        sp_turret.set(x);
      }else{
        sp_turret.set(0);

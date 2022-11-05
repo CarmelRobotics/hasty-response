@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -34,14 +36,29 @@ public final class Constants {
         public static final double DRIVE_TURN_AUTO = 0.4;
         public static final double DRIVE_PIVOT_SPEED_MOD = 30.0;
         public static final double DRIVE_SPEED_MULTIPLIER = 0.36;
-        public static final double DRIVE_ACCELERATION_LIMIT = 1.5;
+        public static final double DRIVE_ACCELERATION_LIMIT = 2.7;
+    }
+    public static final class Trajectory {
+        public static final double KS =  0.26217;
+        public static final double KV = 2.8;
+        public static final double KA = 0.78158;
+        public static final double KP = 4.12;
+
+        public static final double TRACK_WIDTH = 0.54; //meters
+
+        public static final double MAX_SPEED = 1; //meters per second
+        public static final double MAX_ACCELERATION = 1;
+
+        public static final double RAMSETEB = 2;
+        public static final double RAMSETE_ZETA = 0.7;
+        public static final DifferentialDriveKinematics KINEMATICS = new DifferentialDriveKinematics(TRACK_WIDTH);
     }
     public static final class Lighting {
         public static final int RED_DIO = 2;
         public static final int GREEN_DIO = 3;
     }
     public static final class Controls {
-        public static final boolean useGuitar = false;
+        public static final boolean useGuitar = true;
 
         public static final int BUTTON_OVERRIDE_DISTANCE = 9;
         public static final int JOYSTICK_USB = 0;
@@ -95,8 +112,8 @@ public final class Constants {
         public static final int DIO_LIM2 = 1;
         public static final boolean ADJUST_HOOD = true;
 
-        public static final double MIN_SPEED = 0.46;
-        public static final double MAX_SPEED = 0.62;
+        public static final double MIN_SPEED = 0.495;
+        public static final double MAX_SPEED = 0.670;//.62
 
         public static final double MIN_DIST = 95;
         public static final double MAX_DIST = 230;

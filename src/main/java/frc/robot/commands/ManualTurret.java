@@ -36,9 +36,9 @@ public class ManualTurret extends CommandBase {
   public void execute() {
 
     if(joy.getPOV() == 270){
-      m_turret.moveTurret(-1);
+      m_turret.moveTurret(-.45);
     }else if(joy.getPOV() == 90){
-      m_turret.moveTurret(1);
+      m_turret.moveTurret(.45);
     }else{
       m_turret.moveTurret(0);
     }

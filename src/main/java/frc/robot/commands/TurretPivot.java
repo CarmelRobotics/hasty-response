@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -13,6 +14,7 @@ public class TurretPivot extends CommandBase {
     private final Lighting indicator;
     private final Turret m_turret;
     private boolean stop = false;
+    private final Timer time;
     /**
      * Creates a new ExampleCommand.
      *
@@ -22,6 +24,7 @@ public class TurretPivot extends CommandBase {
       m_shooter = s;
       m_turret = t;
       indicator = l;
+      time = new Timer();
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(s);
     }
@@ -30,6 +33,7 @@ public class TurretPivot extends CommandBase {
     @Override
     public void initialize() {
         stop = false;
+        time.start();
     }
   
     // Called every time the scheduler runs while the command is scheduled.
@@ -39,9 +43,9 @@ public class TurretPivot extends CommandBase {
         double tx = m_shooter.getTX();
         double abs_tx = Math.abs(tx);
         if (m_shooter.getTV()) {
-            if (abs_tx > 0.7) {
+            if (abs_tx > 1) {
                 System.out.println("pivoting");
-                double pivot_mod = abs_tx/60.0;
+                double pivot_mod = abs_tx/115.0;
                 if (tx > 0) {
                     if(!m_turret.checkLimit()){
                     m_turret.moveTurret(-(Constants.DriveTrain.DRIVE_PIVOT_SPEED_BASE+pivot_mod+0.08));; // turn right
@@ -85,11 +89,13 @@ public class TurretPivot extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_turret.moveTurret(0);
+        time.stop();
+        time.reset();
     }
   
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      return false;
+      return stop || time.hasElapsed(2.0);
     }
 }

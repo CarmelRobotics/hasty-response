@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Auto;
 import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoReset;
 import frc.robot.commands.Drive;
 import frc.robot.commands.HangDown;
 import frc.robot.commands.HangUp;
@@ -57,7 +58,7 @@ public class RobotContainer {
   private final Hanger m_hanger = new Hanger();
   private final Lighting m_lights = new Lighting();
   private final FileReadWrite m_fileIO = new FileReadWrite();
-  private final Auto a_auto = new Auto(m_driveTrain, m_shooter, m_intake, m_bts, m_fileIO);
+  private final Auto a_auto = new Auto(m_driveTrain, m_shooter, m_intake, m_bts, m_turret, m_lights, m_fileIO);
   private final ResetServo m_resetServo = new ResetServo(m_shooter);
   private final ManualTurret m_manualTurret = new ManualTurret(m_turret, j_joystick);
 
@@ -121,12 +122,12 @@ public class RobotContainer {
     b_overrideTurret.whileHeld(new ManualTurret(m_turret, j_joystick));
     m_driveTrain.setDefaultCommand(new Drive(m_driveTrain, j_joystick));
     m_shooter.setDefaultCommand(new SetShooterServo(m_shooter, j_joystick));
-
-    b_runShooter.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts, m_fileIO));
-    b_intakeSpin.whileHeld(new IntakeBall(m_intake, false));
+    b_resetServoPos.whenPressed(new AutoReset(m_driveTrain));
+    b_runShooter.whileHeld(new Shoot(m_shooter, m_intake, m_fileIO, m_bts));
+    b_intakeSpin.whileHeld(new IntakeBall(m_intake, m_bts, false));
    // b_hanger_open.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_OPEN));
     //b_hanger_closed.whenPressed(new HangerHook(m_hanger, Constants.Hanger.HANGER_SERVO_POS_CLOSED));
-    b_overrideServo.whenPressed(new OverrideDistance(m_shooter));
+    b_overrideServo.whileHeld(new ShootConstant(m_shooter, m_intake, m_bts, m_fileIO));
     b_pivotToTarget.whileHeld(new TurretPivot(m_shooter, m_turret, m_lights));
     b_resetServoPos.whenPressed(new ResetServo(m_shooter));
     b_printLog.whenPressed(new PrintLog(m_fileIO));
@@ -137,10 +138,9 @@ public class RobotContainer {
       //.whileHeld(new IntakeBall(m_intake, true));
       b_intakeExtend_guitar.whileHeld(new IntakeOpen(m_intake));
       b_intakeRetract_guitar.whileHeld(new IntakeClose(m_intake));
-    }else {
       b_hanger_up_guitar.whileHeld(new HangUp(m_hanger));
       b_hanger_down_guitar.whileHeld(new HangDown(m_hanger));
-      b_intakeSpin_rev_guitar.whileHeld(new IntakeBall(m_intake, true));
+      b_intakeSpin_rev_guitar.whileHeld(new IntakeBall(m_intake, m_bts, true));
       b_intakeExtend.whenPressed(new IntakeOpen(m_intake));
       b_intakeRetract.whenPressed(new IntakeClose(m_intake));
     }

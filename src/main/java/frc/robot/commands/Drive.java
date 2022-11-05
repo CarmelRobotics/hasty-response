@@ -42,7 +42,7 @@ public class Drive extends CommandBase{
   public void execute() {
     joystickX.setDouble(j_joystick.getX());
     joystickY.setDouble(j_joystick.getY());
-    s_driveTrain.arcadeDrive(acc_clamp.calculate(j_joystick.getX()), j_joystick.getY(), 0.0);
+    s_driveTrain.arcadeDrive(j_joystick.getX(), acc_clamp.calculate(j_joystick.getY()), 0.0);
   }
 
   // Called once the command ends or is interrupted.

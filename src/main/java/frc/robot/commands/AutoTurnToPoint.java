@@ -42,20 +42,22 @@ public class AutoTurnToPoint extends CommandBase {
         turnToAngle *= (180.0/Math.PI); //radians to degrees
         if (turnToAngle < 0) {turnToAngle += 360.0;}
         if (turnToAngle > 360.0) {turnToAngle -= 360.0;}
-
+/*
         if (turnToAngle > 180) {
             dir = -1;
         }else {
             dir = 1;
         }
+        */
+        dir = 1;
         SmartDashboard.putNumber("Auto turn to angle", turnToAngle);
         SmartDashboard.putNumber("Auto Dir", dir);
-        m_drive.NAVX_offset += (3 * -dir);
+        m_drive.NAVX_offset -= (1.25 * dir);
     }
     @Override
     public void execute() {
         m_drive.arcadeDrive(0.4 * (double) -dir, 0, 0);
-        SmartDashboard.putNumber("angle dif value", m_drive.NAVX.getAngle());
+        SmartDashboard.putNumber("angle dif value", m_drive.getAngleDif(turnToAngle));
 
     }
     // Called once the command ends or is interrupted.
@@ -67,7 +69,7 @@ public class AutoTurnToPoint extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      
+     //   return false;
       return m_drive.getAngleDif(turnToAngle) < 2;
     }
 }

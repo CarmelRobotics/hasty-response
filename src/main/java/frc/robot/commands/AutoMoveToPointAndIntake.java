@@ -11,7 +11,7 @@ public class AutoMoveToPointAndIntake extends CommandBase {
     private final Intake m_intake;
     private double pointX;
     private double pointY;
-    private double speed = 0.4;
+    private double speed = 0.5;
     private double distance; //in meters 
     private double initDistance;
 
@@ -36,7 +36,7 @@ public class AutoMoveToPointAndIntake extends CommandBase {
     @Override
     public void initialize() {
         initDistance = m_drive.getEncoder();
-        distance = Math.sqrt(Math.pow(pointX - m_drive.getPos().getX(), 2) + Math.pow(pointY - m_drive.getPos().getY(), 2) )-0.4;
+        distance = Math.sqrt(Math.pow(pointX - m_drive.getPos().getX(), 2) + Math.pow(pointY - m_drive.getPos().getY(), 2) )-0.35 + m_drive.numAuto;
         SmartDashboard.putNumber("Point Distance", distance);
     }
     @Override
@@ -50,7 +50,8 @@ public class AutoMoveToPointAndIntake extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_drive.arcadeDrive(0,0,0);
-        m_intake.disableMotor();  
+        m_intake.disableMotor(); 
+        m_drive.numAuto += 0.35;
     }
   
     // Returns true when the command should end.
